@@ -35,6 +35,13 @@ public class NioServer implements Runnable {
 
 	// to complete
 
+	private void deliver(NioServer ns, SocketChannel socketChannel, byte[] b, int nbread)
+	{
+		String s ="";
+		for(int i = 0 ; i<nbread ; i ++) s += b[i];
+		
+		System.out.println("message read : "+s);
+	}
 
 	/**
 	 * NIO engine initialization for server side
@@ -164,9 +171,27 @@ public class NioServer implements Runnable {
 	/**
 	 * Handle incoming data event
 	 * @param the key of the channel on which the incoming data waits to be received 
+	 * @throws IOException 
 	 */
-	private void handleRead(SelectionKey key) {
-		// todo
+	private void handleRead(SelectionKey key) throws IOException {
+		SocketChannel socketChannel = (SocketChannel) key.channel();
+		ByteBuffer inBuffer = ByteBuffer.allocate(128);
+		
+		int nbread = 0;
+		try {
+			nbread = socketChannel.read(inBuffer);
+		}catch(IOException e){
+			key.cancel();
+			socketChannel.close();
+			return;
+		}
+		if(nbread == -1)
+		{
+			key.channel().close();
+			key.cancel();
+			return;
+		}
+		deliver(this, socketChannel, inBuffer.array(),nbread);
 	}
 
 
@@ -180,7 +205,7 @@ public class NioServer implements Runnable {
 
 	/**
 	 * Send data
-	 * @param the key of the channel on which data that should be sent
+	 * @param the key of the channel on which data should be sent
 	 * @param the data that should be sent
 	 */
 	public void send(SocketChannel socketChannel, byte[] data) {

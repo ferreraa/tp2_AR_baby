@@ -203,8 +203,8 @@ public class NioClient implements Runnable {
 	 * Handle outgoing data event
 	 * @param the key of the channel on which data can be sent 
 	 */
-	private void handleWrite(SelectionKey key) {
-       // todo
+	private void handleWrite(SelectionKey key) throws IOException{
+
 	}
 
 
