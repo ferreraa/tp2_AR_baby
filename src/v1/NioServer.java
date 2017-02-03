@@ -37,8 +37,7 @@ public class NioServer implements Runnable {
 
 	private void deliver(NioServer ns, SocketChannel socketChannel, byte[] b, int nbread)
 	{
-		String s ="";
-		for(int i = 0 ; i<nbread ; i ++) s += b[i];
+		String s = new String(b);
 		
 		System.out.println("message read : "+s);
 	}
@@ -176,7 +175,7 @@ public class NioServer implements Runnable {
 	private void handleRead(SelectionKey key) throws IOException {
 		SocketChannel socketChannel = (SocketChannel) key.channel();
 		ByteBuffer inBuffer = ByteBuffer.allocate(128);
-		
+		System.out.println("coucou");
 		int nbread = 0;
 		try {
 			nbread = socketChannel.read(inBuffer);
