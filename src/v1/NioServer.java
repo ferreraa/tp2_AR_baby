@@ -209,7 +209,7 @@ public class NioServer implements Runnable {
 	 * @param the data that should be sent
 	 */
 	public void send(SocketChannel socketChannel, byte[] data) {
-		// todo
+//		socketChannel.
 	}
 
 	public static void main(String args[]){

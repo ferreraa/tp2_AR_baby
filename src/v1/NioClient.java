@@ -36,11 +36,8 @@ public class NioClient implements Runnable {
 	String msg;
 
 	private void deliver(NioClient nc, SocketChannel socketChannel, byte[] b, int nbread)
-	{
-		String s ="";
-		for(int i = 0 ; i<nbread ; i ++) s += b[i];
-		
-		System.out.println("message read : "+s);
+	{		
+		System.out.println("message read : " + new String(b));
 	}
 
 	/**
