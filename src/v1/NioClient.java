@@ -154,7 +154,7 @@ public class NioClient implements Runnable {
 		key.interestOps(SelectionKey.OP_READ);	
 
 		// when connected, send a message to the server 
-		send(msg.getBytes());
+		send(socketChannel,msg.getBytes());
 	}
 
 
@@ -204,7 +204,8 @@ public class NioClient implements Runnable {
 	 * @param the key of the channel on which data can be sent 
 	 */
 	private void handleWrite(SelectionKey key) throws IOException{
-
+		SocketChannel socketChannel = (SocketChannel) key.channel();
+		socketChannel.write(outBuffer);
 	}
 
 
@@ -213,8 +214,10 @@ public class NioClient implements Runnable {
 	 * @param the key of the channel on which data that should be sent
 	 * @param the data that should be sent
 	 */
-	public void send(byte[] data) {
-       // todo
+	public void send(SocketChannel socketChannel, byte[] data) {
+		outBuffer = ByteBuffer.wrap(data);
+		SelectionKey key = socketChannel.keyFor(selector);
+		key.interestOps(SelectionKey.OP_READ | SelectionKey.OP_WRITE);
 	}
 
 

@@ -176,7 +176,7 @@ public class NioServer implements Runnable {
 	private void handleRead(SelectionKey key) throws IOException {
 		SocketChannel socketChannel = (SocketChannel) key.channel();
 		ByteBuffer inBuffer = ByteBuffer.allocate(128);
-		
+		System.out.println("coucou");
 		int nbread = 0;
 		try {
 			nbread = socketChannel.read(inBuffer);
